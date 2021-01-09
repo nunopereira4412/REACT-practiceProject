@@ -1,21 +1,7 @@
 import React, {Component} from 'react';
-import './App.css';
 import Person from './Person/Person';
-import styled from 'styled-components';
+import classes from './app.module.css';
 
-// this with the `` is called a template literal. Its regular js which in the end creates a string where we can dynamically inject content
-const StyledButton = styled.button`
-  background-color: ${props => props.alt ? "red" : "green"};
-  color: white;
-  font: inherit;
-  border: 1px solid blue;
-  padding: 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${props => props.alt ? "salmon" : "lightgreen"};
-    color: black;
-  }
-`;
 
 class App extends Component {
   state = {
@@ -63,6 +49,8 @@ class App extends Component {
   render() {
     let persons = null;
     
+    let buttonClasses = "";
+
     if(this.state.showPersons) { 
       persons = (
         <div>
@@ -82,25 +70,26 @@ class App extends Component {
           })}
         </div>
       );
+      buttonClasses = classes.Red;
     }
 
-    const classes = [];
+
+    const assignedClasses = [];
     if(this.state.persons.length <= 2) {
-      classes.push("red");
+      assignedClasses.push(classes.red);
     }
     if(this.state.persons.length <= 1) {
-      classes.push("bold");
+      assignedClasses.push(classes.bold);
     }
 
     return (
       // this is some jsx
-      <div className="App">
+      <div className={classes.App}>
         <h1>HI --- TEST</h1>
-        <p className={classes.join(" ")}>this is rly working</p>
-        {/* <button onClick={() => this.switchNameHandler("Maximilian")}>Switch name</button> */}
-        <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
+        <p className={assignedClasses.join(" ")}>this is rly working</p>
+        <button className={buttonClasses} onClick={this.togglePersonsHandler}>
           Toggle Persons
-        </StyledButton>
+        </button>
         {persons}
       </div>
       //its the same as:
