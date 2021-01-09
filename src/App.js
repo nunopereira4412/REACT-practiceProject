@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Person from './Person/Person';
 import classes from './app.module.css';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 
 class App extends Component {
@@ -21,7 +22,7 @@ class App extends Component {
 
   nameChangedHandler = (event, personId) => {
     const personIndex = this.state.persons.findIndex(p => p.id === personId);
-  
+
     const person = {...this.state.persons[personIndex]};
     // OR
     // const person = Object.assign({}, ...this.state.persons[personIndex]);
@@ -34,12 +35,6 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {     
-    // without the slice we would be mutating the oritignal state. This may lead to unpredictable apps
-
-    //const persons = this.state.persons.slice();
-
-    // OR
-    //returns an object with the elements from the oritignal 
     const persons = [...this.state.persons];
 
     persons.splice(personIndex, 1);
@@ -54,18 +49,17 @@ class App extends Component {
     if(this.state.showPersons) { 
       persons = (
         <div>
-          {/* 1. map offers each element in the array asweel as its index if i want
-          2. this will in the end be an array of jsx elements but react will pull out those elements from the array and render them into the screeen */}
           {this.state.persons.map((person, personIndex) => {
             return (
-              <Person
-              click={() => this.deletePersonHandler(personIndex)}
-              name={person.name} 
-              age={person.age} 
-              // key is used by react to compare future elements with past elements and then only re-render the elements that changed - efficiency
-              // index isnt a good key cus for every render the indexes change
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)}/>
+              <ErrorBoundary key={person.id}>
+                <Person
+                click={() => this.deletePersonHandler(personIndex)}
+                name={person.name} 
+                age={person.age} 
+                // key is used by react to compare future elements with past elements and then only re-render the elements that changed - efficiency
+                // index isnt a good key cus for every render the indexes change
+                changed={(event) => this.nameChangedHandler(event, person.id)}/>
+              </ErrorBoundary>
             )
           })}
         </div>
@@ -95,6 +89,6 @@ class App extends Component {
       //its the same as:
         // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?')
     );
-  }
+  } 
 }
 export default App;

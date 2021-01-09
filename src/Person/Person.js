@@ -2,6 +2,13 @@ import React from 'react';
 import classes from './person.module.css';
  
 const person = (props) => {
+
+    let x = Math.random();
+
+    if(x > 0.7) {
+        throw new Error("Something went wrong");
+    }
+
     return (
         // style vai dar override as css rules que tenho definidas para Person. O css faz isso e nao o radium
         <div className={classes.Person}>
