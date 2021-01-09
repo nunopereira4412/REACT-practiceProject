@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';  //the .js is auto added by the build workflow
+import App from './containers/App';  //the .js is auto added by the build workflow
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App appTitle={"Person Manager"}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
